@@ -11,11 +11,12 @@ jobs:
     docker:
       - image: amazon/aws-cli
     steps:
-      - run: echo "Hello World" > ~/output.txt
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - output.txt
+      - checkout
+      - run: Ensure backend infrastructure exist
+      - command:
+          aws cloudformation deploy \
+            --template-file template.yml \
+            --stack-name my-stack
   
 workflows:
   # Name the workflow "welcome"
